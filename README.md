@@ -1,0 +1,2 @@
+# vavr-playground
+Learning vavr
