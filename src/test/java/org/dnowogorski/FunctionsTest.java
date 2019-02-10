@@ -3,6 +3,7 @@ package org.dnowogorski;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
+import io.vavr.control.Option;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -42,6 +43,27 @@ public class FunctionsTest {
         Function1<Integer, Integer> composed = decrement.compose(MULTIPLY_BY_TWO.compose(INCREMENT));
 
         assertThat(composed.apply(3), is(7));
+    }
+
+    @Test
+    public void shouldLiftPartialFunction() {
+        Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
+        Function2<Integer, Integer, Option<Integer>> safeDivide = Function2.lift(divide);
+
+        assertThat(safeDivide.apply(1, 0).isEmpty(), is(true));
+        assertThat(safeDivide.apply(4, 2).getOrElse(0), is(2));
+    }
+
+    @Test
+    public void shouldLiftFunctionThrowingException() {
+        Function2<Integer, Integer, Option<Integer>> saveSum = Function2.lift(this::sum);
+
+        assertThat(saveSum.apply(-1, 1).isEmpty(), is(true));
+    }
+
+    private int sum(int a, int b) {
+        if (a < 0 || b < 0) throw new IllegalArgumentException("Only positive values allowed");
+        return a + b;
     }
 
     private String createUrl(String base, String user, String repo) {
