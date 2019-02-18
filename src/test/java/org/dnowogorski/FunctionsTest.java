@@ -3,7 +3,6 @@ package org.dnowogorski;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
-import io.vavr.Function4;
 import io.vavr.Function5;
 import io.vavr.control.Option;
 import org.junit.Test;
