@@ -3,6 +3,8 @@ package org.dnowogorski;
 import io.vavr.Function1;
 import io.vavr.Function2;
 import io.vavr.Function3;
+import io.vavr.Function4;
+import io.vavr.Function5;
 import io.vavr.control.Option;
 import org.junit.Test;
 
@@ -59,6 +61,15 @@ public class FunctionsTest {
         Function2<Integer, Integer, Option<Integer>> saveSum = Function2.lift(this::sum);
 
         assertThat(saveSum.apply(-1, 1).isEmpty(), is(true));
+    }
+
+    @Test
+    public void shouldPartiallyApplyFunction() {
+        Function5<Integer, Integer, Integer, Integer, Integer, Integer> sum = (a, b, c, d, e) -> a + b + c + d + e;
+
+        Function2<Integer, Integer, Integer> six = sum.apply(2, 3, 1); // a,b,c fixed to 2, 3, 1
+
+        assertThat(six.apply(4, 3), is(13));
     }
 
     private int sum(int a, int b) {
