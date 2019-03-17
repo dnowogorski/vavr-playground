@@ -71,6 +71,25 @@ public class FunctionsTest {
         assertThat(six.apply(4, 3), is(13));
     }
 
+    @Test
+    public void shouldPartiallyApplyFunctionUsingCurrying() {
+        Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+
+        // Works this way only for Function2
+        Function1<Integer, Integer> addTwo = sum.curried().apply(2);
+
+        assertThat(addTwo.apply(1), is(3));
+    }
+
+    @Test
+    public void shouldCurryFunction() {
+        Function3<Integer, Integer, Integer, Integer> sum = (a, b, c) -> a + b + c;
+
+        Function1<Integer, Function1<Integer, Integer>> addTwo = sum.curried().apply(2);
+
+        assertThat(addTwo.apply(3).apply(4), is(9));
+    }
+
     private int sum(int a, int b) {
         if (a < 0 || b < 0) throw new IllegalArgumentException("Only positive values allowed");
         return a + b;
