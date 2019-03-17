@@ -64,9 +64,9 @@ public class FunctionsTest {
 
     @Test
     public void shouldPartiallyApplyFunction() {
-        Function5<Integer, Integer, Integer, Integer, Integer, Integer> sum = (a, b, c, d, e) -> a + b + c + d + e;
+        Function5<Integer, Integer, Integer, Integer, Integer, Integer> fiveAddendsSum = (a, b, c, d, e) -> a + b + c + d + e;
 
-        Function2<Integer, Integer, Integer> six = sum.apply(2, 3, 1); // a,b,c fixed to 2, 3, 1
+        Function2<Integer, Integer, Integer> six = fiveAddendsSum.apply(2, 3, 1); // a,b,c fixed to 2, 3, 1
 
         assertThat(six.apply(4, 3), is(13));
     }
