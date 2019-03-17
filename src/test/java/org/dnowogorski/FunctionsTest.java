@@ -73,7 +73,7 @@ public class FunctionsTest {
 
     @Test
     public void shouldPartiallyApplyFunctionUsingCurrying() {
-        Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+        Function2<Integer, Integer, Integer> sum = this::sum;
 
         // Works this way only for Function2
         Function1<Integer, Integer> addTwo = sum.curried().apply(2);
