@@ -1,9 +1,6 @@
 package org.dnowogorski;
 
-import io.vavr.Function1;
-import io.vavr.Function2;
-import io.vavr.Function3;
-import io.vavr.Function5;
+import io.vavr.*;
 import io.vavr.control.Option;
 import org.junit.Test;
 
@@ -88,6 +85,13 @@ public class FunctionsTest {
         Function1<Integer, Function1<Integer, Integer>> addTwo = sum.curried().apply(2);
 
         assertThat(addTwo.apply(3).apply(4), is(9));
+    }
+
+    @Test
+    public void shouldCacheResultUsingMemoization() {
+        Function0<Double> cachedRandom = Function0.of(Math::random).memoized();
+
+        assertThat(cachedRandom.apply(), is(cachedRandom.apply()));
     }
 
     private int sum(int a, int b) {
