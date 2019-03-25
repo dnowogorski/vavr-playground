@@ -9,4 +9,5 @@ repositories {
 dependencies {
     compile "io.vavr:vavr:0.9.3"
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.assertj:assertj-core:3.11.1'
 }
