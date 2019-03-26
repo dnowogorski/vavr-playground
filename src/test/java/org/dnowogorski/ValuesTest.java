@@ -47,6 +47,21 @@ public class ValuesTest {
         assertThat(result).isEqualTo("Something bad happened...");
     }
 
+    @Test
+    public void shouldTryAndThenTry() {
+        String defaultResult = "It's too heavy";
+
+        String result = Try.of(this::bunchOfWork)
+                .andThenTry(this::heavyTask)
+                .getOrElse(defaultResult);
+
+        assertThat(result).isEqualTo(defaultResult);
+    }
+
+    private String heavyTask() {
+        throw new RuntimeException("Bad but recoverable");
+    }
+
     private String bunchOfWork() {
         throw new RuntimeException("Something bad happened...");
     }
