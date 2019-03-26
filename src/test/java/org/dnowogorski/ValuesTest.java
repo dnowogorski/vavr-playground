@@ -1,9 +1,12 @@
 package org.dnowogorski;
 
 import io.vavr.API;
+import io.vavr.Lazy;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.junit.Test;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -56,6 +59,16 @@ public class ValuesTest {
                 .getOrElse(defaultResult);
 
         assertThat(result).isEqualTo(defaultResult);
+    }
+
+    @Test
+    public void shouldLazyLoadValue() {
+        Lazy<Integer> lazyValue = Lazy.of(() -> ThreadLocalRandom.current().nextInt());
+
+        assertThat(lazyValue.isEvaluated()).isEqualTo(false);
+        Integer randomValue = lazyValue.get();
+        assertThat(lazyValue.isEvaluated()).isEqualTo(true);
+        assertThat(lazyValue.get()).isEqualTo(randomValue);
     }
 
     private String heavyTask() {
