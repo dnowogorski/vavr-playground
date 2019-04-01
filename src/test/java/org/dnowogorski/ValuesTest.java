@@ -81,11 +81,20 @@ public class ValuesTest {
         assertThat(result).isEqualTo(128);
     }
 
-    private Either<String, Integer> compute(int value) {
-        return Either.right(value * 2);
+    @Test
+    public void shouldGetLeftProjectionAndDoSthWithIt() {
+        String result = compute(-1).left()
+                .map(String::toUpperCase)
+                .get();
+
+        assertThat(result).isEqualTo("VALUE CANNOT BE NEGATIVE");
     }
 
-    private String heavyTask() {
+    private Either<String, Integer> compute(int value) {
+        return value <= 0 ? Either.left("Value cannot be negative") : Either.right(value * 2);
+    }
+
+    private void heavyTask() {
         throw new RuntimeException("Bad but recoverable");
     }
 
