@@ -2,6 +2,7 @@ package org.dnowogorski;
 
 import io.vavr.API;
 import io.vavr.Lazy;
+import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.junit.Test;
@@ -69,6 +70,19 @@ public class ValuesTest {
         Integer randomValue = lazyValue.get();
         assertThat(lazyValue.isEvaluated()).isEqualTo(true);
         assertThat(lazyValue.get()).isEqualTo(randomValue);
+    }
+
+    @Test
+    public void shouldGetRightProjectionAndDoSthWithIt() {
+        int result = compute(32).right()
+                .map(i -> i * 2)
+                .getOrElse(0);
+
+        assertThat(result).isEqualTo(128);
+    }
+
+    private Either<String, Integer> compute(int value) {
+        return Either.right(value * 2);
     }
 
     private String heavyTask() {
